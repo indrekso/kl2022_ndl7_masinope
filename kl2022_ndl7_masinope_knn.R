@@ -122,7 +122,7 @@ OptimKNNres <- generateHyperParsEffectData(OptimKNN)
 plotHyperParsEffect(OptimKNNres, x = "k", y = "mmce.test.mean", plot.type = "line")
 
 # saame siit teada, et täpseima klassifitseerimistulemuse annab milline k väärtus? 
-# Teeme tulemuse põhjal klassifitseerimisprotsessi näitlikult lõpuni läbi ja treenime lõpliku mudeli.
+# Teeme tulemuse põhjal klassifitseerimisprotsessi näitlikult lõpuni läbi ja treenime lõpliku mudeli (kui peame optimaalseks k väärtuseks midagi muud kui see, millel on väikseim mmce väärtus, saab selle järgnevas käsus kirja panna nt k = 6 puhul par.vals = list(k = 6)).
 
 TunedKNN <- setHyperPars(makeLearner("classif.knn"), par.vals = OptimKNN$x)
 
