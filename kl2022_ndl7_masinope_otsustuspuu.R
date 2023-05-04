@@ -63,20 +63,6 @@ rpart.plot(treeModelData,
 
 printcp(treeModelData, digits = 3)
 
-# pesastatud valideerimine - optimaalsete hüperparameetrite otsing ja selle valideerimine kaasatakse mudeli valideerimisse, valideeritakse kogu mudeli koostamise protsessi integreeritud tervikuna. Võimaldab saada realistlikuma hinnangu mudeli täpsusele uute andmete korral
+# edaspidi saaksime seda mudelit uute andmete peal kasutada nii:
 
-# paneme paika üldise valideerimisskeemi (5-fold CV)
-
-outer <- makeResampleDesc("CV", iters = 5)
-
-# defineerime õpimeetodi, kuhu on kaasatud mudeli optimeerimine ehk hüperparameetrite otsing. Nagu näha, on ka siin seadistatud valideerimine (antud juhul samamoodi 5-fold CV), mida kasutatakse üldise valideerimisskeemi treeningandmetel.
-
-treeWrapper <- makeTuneWrapper("classif.rpart", resampling = cvForTuning,
-                               par.set = treeParamSpace,
-                               control = randSearch)
-
-# viime läbi mudeli treenimise koos optimeerimisega. Üldise valideerimisskeemi järgi jaotatakse andmestik viieks osaks, st andmestik jaotatakse viis korda treeningvalimiks (80% andmestikust) ja testvalimiks (20%), iga treeningvalimit kasutatakse hüperparameetrite tuunimiseks, kus omakorda viiakse läbi valideerimine (st 80% algandmestikust jagatakse omakorda viieks osaks). Saadud hüperparameetrite kombinatsiooni kasutatakse mudeli treenimiseks üldise treeningvalimi peal, mida testitakse üldise testvalimi peal. Viie mudeli pealt saadud MMCE-dest võetakse keskmine.
-
-cvWithTuning <- resample(treeWrapper, zooTask, resampling = outer)
-
-cvWithTuning
+predict(tunedTreeModel, newdata = ...)
